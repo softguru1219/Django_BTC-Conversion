@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+<title>{% block title %} btc2sepa | Home {% endblock %}</title>
+{% block content %}
+
+    <form class="change" action="/exchange/payment" method="post" id="currency_form">{% csrf_token %}
+        <div class="container">
+            <div class="change__flex-wrap">
+                <div class="change__half">
+                    <div class="change__row">
+                        <div class="change__item">
+                            <label class="change__label">You will send</label>
+                            <select class="change__select" id="crypto_currency" name="crypto_currency">
+                                {%for c in crypto_currencies%}
+                                    <option value="{{c.code}}"{%if crypto_currency == c.code%}selected="true"{%endif%}>{{ c.code }} - {{c.name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="change__item">
+                            <label class="change__label">Amount {{crypto_currency}}</label>
+                            <input class="change__input" type="text" value="0" name="payed_amount" id="payed_amount" required="true">
+                        </div>
+                    </div>
+                    <div class="change__reserve">Reserve: 95.567 LTC</div>
+                    <div class="change__course" id="exchange_currency">1 {{crypto_currency}} = {{ rate }} USD</div><a class="change__exchange" href="#">Exchange course</a>
+                </div>
+                <div class="change__half">
+                    <div class="change__row">
+                        <div class="change__item">
+                            <label class="change__label">You will recieve</label>
+                            <select class="change__select">
+                                <option>SEPA (USD)</option>
+                                <option>SEPA (EURO)</option>
+                            </select>
+                        </div>
+                        <div class="change__item">
+                            <label class="change__label">Amount USD</label>
+                            <input class="change__input" type="text" value="1292" name="received_amount" id="received_amount" required="true">
+                        </div>
+                    </div>
+                    <div class="change__reserve">Reserve: 1350.56 USD</div>
+                </div>
+            </div>
+        </div>
+        <div class="change-info">
+            <div class="container">
+                <div class="change-info__flex-wrap">
+                    <div class="change-info__half">
+                        <h2 class="change-info__title">Beneficiary Information</h2>
+                        <label class="change-info__label">First Name</label>
+                        <input class="change-info__input" type="text" required="true">
+                        <label class="change-info__label">Last Name</label>
+                        <input class="change-info__input" type="text" required="true">
+                        <label class="change-info__label">E-mail</label>
+                        <input class="change-info__input" type="text" required="true">
+                        <label class="change-info__label">Country</label>
+                        <select class="change-info__select">
+                            <option></option>
+                            {%for c in sepa_countrys%}
+                                <option value="{{c.country}}">{{c.country}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="change-info__half">
+                        <h2 class="change-info__title">Payment information</h2>
+                        <label class="change-info__label">IBAN</label>
+                        <input class="change-info__input" type="text" name="iban" id="iban" required="true">
+                        <span class="error text-danger" id="iban-error" style="display: none">Invalid iban account!</span>
+                        <label class="change-info__label">BIC</label>
+                        <input class="change-info__input" type="text" required="true">
+                        <label class="change-info__label">Payment Purpose</label>
+                        <input class="change-info__input" type="text" required="true">
+                        <input class="change-info__checkbox" type="checkbox" id="check1">
+                        <label class="change-info__for-check" for="check1">I understand the exchange rate is fixed to the moment of first confirmation.</label>
+                    </div>
+                </div>
+                <button class="change-info__btn" id="submit-button">Make exchange</button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    <script type="text/javascript">
+
+        var url = "{% url 'get_cryto_curreny_rate_ajax' %}";
+
+        $(document).ready(function() {
+            $('#submit-button').click(function () {
+                if ($('#received_amount').val() <50 || $('#received_amount').val() > 50000)
+                {
+                    $.confirm({
+                        theme: 'supervan',
+                        title: 'Confirm!',
+                        content: 'Min-value: $50, Max-value: $50000',
+                        buttons: {
+                            confirm: function () {
+                            },
+                        }
+                    });
+                    return false;
+                }
+                else{
+                    $('#submit-button').trigger('click');
+                }
+
+            });
+
+            $('#crypto_currency').change(function () {
+                var crypto_currency = $(this).val();
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: {
+                        'crypto_currency': crypto_currency
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#exchange_currency').html("1 " + crypto_currency + " = " + data.rate + " USD");
+                    }
+                });
+            });
+            $('#iban').on('blur', function() {
+
+                if (IBAN.isValid($(this).val())) {
+                    $('#submit-button').removeAttr("disabled");
+                    $('#iban-error').css('display', 'none');
+                } else {
+                    $('#submit-button').attr('disabled', 'disabled');
+                    $('#iban-error').css('display', 'block');
+                }
+
+            });
+
+
+            $('#received_amount').on('change', function() {
+                var usd_amount = $(this).val();
+
+                var temp = usd_amount / {{ rate }};
+                var total = temp - (temp * {{ exchange_fee }});
+
+                $("#payed_amount").val(total.toFixed(8));
+            });
+
+            $('#payed_amount').on('change', function() {
+                var usd_amount = $(this).val();
+
+                var temp = usd_amount * {{ rate }};
+                var total = temp - (temp * {{ exchange_fee }});
+
+                $("#received_amount").val(total.toFixed(2));
+            });
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+<title>{% block title %} btc2sepa | News {% endblock %}</title>
+
+{% block content %}
+
+<section class="news">
+    <div class="container">
+        <div class="news__flex-wrap">
+            {% for object in object_list %}
+                 <div class="news__item">
+                     <h2 class="news__title">{{ object.titolo }}</h2>
+                     <p class="news__text">{{ object.contenuto }}</p>
+                     <span class="news__date">{{ object.data }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Precedente</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Successiva</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+<title>{% block title %} btc2sepa | Status {% endblock %}</title>
+
+{% block content %}
+
+<section class="status">
+    <div class="container">
+        <div class="payment__to"> <span>{{crypto_currency.name}} to SEPA application #20304
+     <svg class="ico ico-arrow">
+      <use xlink:href="{% static 'img/sprite.svg#ico-arrow' %}"></use>
+     </svg></span></div>
+        <div class="status__send"><span>{{payed_amount}} {{crypto_currency.code}} </span><i class="icon-to"></i><span>{{received_amount}} USD</span></div>
+        <div class="status__success">Payment successful</div>
+        <div class="status__row">
+            <div class="status__name">Status</div>
+            <div class="status__amount">
+                {% if verified == True %}
+                  Successfull
+                {%else%}
+                  Processing
+                {%endif%}
+            </div>
+        </div>
+        <div class="status__row">
+            <div class="status__name">Date</div>
+            <div class="status__amount">{{date}}</div>
+        </div>
+        <div class="status__row">
+            <div class="status__name">Payed amount</div>
+            <div class="status__amount">{{payed_amount}} {{crypto_currency.code}}</div>
+        </div>
+        <div class="status__row">
+            <div class="status__name">Received amount</div>
+            <div class="status__amount">{{received_amount}} USD</div>
+        </div>
+{#        <div class="status__row">#}
+{#            <div class="status__name">Link to this page</div>#}
+{#            <div class="status__amount status__amount--link"><a href="#">http://kgyoh2.axshare.com/#g=1&p=payment-2398423509826346-s234</a></div>#}
+{#        </div>#}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+
+<title>{% block title %} btc2sepa | news | {{ object.titolo }} {% endblock %}</title>
+
+{% block content %}
+
+
+<h1> {{ object.titolo }}</h1>
+<h4> {{ object.data }}</h4>
+<p>{{ object.contenuto|safe|linebreaks }}
+
+
+{% endblock content %}

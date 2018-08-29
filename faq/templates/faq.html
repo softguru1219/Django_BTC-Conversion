@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+<title>{% block title %} btc2sepa | News {% endblock %}</title>
+
+{% block content %}
+
+<section class="faq">
+    <div class="container">
+        <h1 class="faq__title">Frequently Asked Questions
+    <svg class="ico ico-quest">
+     <use xlink:href="{% static 'img/sprite.svg#ico-quest' %}"></use>
+    </svg>
+   </h1>
+    {% for faq in faqs %}
+        <div class="faq__item">{{ faq.title }}</div>
+        <div class="faq__more">{{ faq.content }}</div>
+    {% endfor %}
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block additional_scripts %}
+    <script>
+        $(document).ready(function () {
+            $('.faq__item').click(function () {
+                $('.is-active').removeClass('is-active');
+                $('.is-open').removeClass('is-open');
+                $(this).addClass('is-active');
+                $(this).next().addClass('is-open');
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Bitcoin2Sepa</title>
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <!-- Select pickers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <!-- Data pickers -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
+    <script src="{% static 'js/iban.js' %}"></script>
+    <script src="{% static 'js/libs.min.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+</head>
+
+</html>
+
+<body>
+    <!-- Header-->
+    <header class="header">
+        <div class="container">
+            <div class="header__flex-wrap">
+                <div class="header__logo">
+                    <a href="/"><img src="{% static 'img/logo_small.png' %}" srcset="{% static 'img/logo_big.png' %} 2x"></a>
+                </div>
+                <div class="header__menu"><a class="header__link" href="/">New exchange
+      <svg class="ico ico-exchange_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-exchange_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'reviews' %}">Reviews
+      <svg class="ico ico-reviews_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-reviews_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'ListNews' %}">News
+      <svg class="ico ico-news_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-news_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'faq' %}">FAQ
+      <svg class="ico ico-faq_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-faq_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'contacts' %}">Contacts
+      <svg class="ico ico-contact_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-contact_ico' %}"></use>
+      </svg></a></div>
+                <button class="header__toggle" type="button" js-open-menu>
+                    <svg class="ico ico-menu">
+                        <use xlink:href="{% static 'img/sprite.svg#ico-menu' %}"></use>
+                    </svg>
+                </button>
+                <div class="header__mobile-menu">
+                    <button class="header__close" type="button" js-close-menu>
+                        <svg class="ico ico-close">
+                            <use xlink:href="{% static 'img/sprite.svg#ico-close' %}"></use>
+                        </svg>
+                    </button><a class="header__link" href="main.html">New exchange
+      <svg class="ico ico-exchange_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-exchange_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'reviews' %}">Reviews
+      <svg class="ico ico-reviews_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-reviews_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'ListNews' %}">News
+      <svg class="ico ico-news_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-news_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'faq' %}">FAQ
+      <svg class="ico ico-faq_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-faq_ico' %}"></use>
+      </svg></a><a class="header__link" href="{% url 'contacts' %}">Contacts
+      <svg class="ico ico-contact_ico">
+       <use xlink:href="{% static 'img/sprite.svg#ico-contact_ico' %}"></use>
+      </svg></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <!-- Advantages-->
+    <section class="advantages">
+        <div class="container">
+            <div class="advantages__flex-wrap">
+                <div class="advantages__item advantages__item--fast">
+                    <h3 class="advantages__title">Fast</h3>
+                    <p class="advantages__descr">Auto exchange on most directions</p>
+                </div>
+                <div class="advantages__item advantages__item--simple">
+                    <h3 class="advantages__title">Simple</h3>
+                    <p class="advantages__descr">Convenient ordering system</p>
+                </div>
+                <div class="advantages__item advantages__item--reliable">
+                    <h3 class="advantages__title">Reliable</h3>
+                    <p class="advantages__descr">Highty secure operations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__flex-wrap">
+                <div class="footer__langs"><a class="footer__lang-link is-active" href="#">EN</a><a class="footer__lang-link" href="#">FR</a><a class="footer__lang-link" href="#">IT</a></div>
+                <div class="footer__logo">
+                    <a href="#">
+                        <svg class="ico ico-logo">
+                            <use xlink:href="{% static 'img/sprite.svg#ico-logo' %}"></use>
+                        </svg>
+                    </a>
+                </div>
+                <div class="footer__copy"><a class="footer__legal" href="#">Legal & Privacy</a><span class="footer__rights">© 2017 bitcoin2sepa</span></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+{% block additional_scripts %}{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load multiply_operator %}
+
+<title>{% block title %} btc2sepa | Contacts {% endblock %}</title>
+
+{% block content %}
+
+<section class="payment">
+    <div class="container">
+        <div class="payment__to"> <span>{{crypto_currency.name}} to SEPA application #20304
+     <svg class="ico ico-arrow">
+      <use xlink:href="{% static 'img/sprite.svg#ico-arrow' %}"></use>
+     </svg></span></div>
+        <div class="payment__send">Send <span>{{payed_amount}} {{crypto_currency.code}}</span> to this adress:</div>
+        <div class="payment__send">Send <span>{{payed_amount | multiply_operator:rate }} USD</span> to this adress:</div>
+        <div class="payment__qr"><img src="{% static 'img/qr.png' %}"></div>
+        <input class="payment__input" type="text" readonly id="to-copy" value="{{address}}">
+        <button class="payment__btn" type="button" id="copy" js-copy-address>Copy address</button>
+        <div class="payment__link">Link to payment’s status page: <a href="{{ uri_path }}/exchange/success/{{ order_id }}">{{ uri_path }}/exchange/success/{{ order_id }}</a></div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script>
+        var toCopy  = document.getElementById( 'to-copy' ),
+            btnCopy = document.getElementById( 'copy' );
+
+        btnCopy.addEventListener( 'click', function(){
+            toCopy.select();
+            document.execCommand( 'copy' );
+            return false;
+        } );
+    </script>
+{% endblock %}

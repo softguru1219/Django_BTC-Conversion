@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+<title>{% block title %} btc2sepa | Contacts {% endblock %}</title>
+
+{% block content %}
+
+    <section class="contacts">
+        <div class="container">
+            <h1 class="contacts__title">Contacts us
+    <svg class="ico ico-message">
+     <use xlink:href="{% static 'img/sprite.svg#ico-message' %}"></use>
+    </svg>
+   </h1>
+            <p class="contacts__text">Feel free to use this form for your suggestions or report any problems.</p>
+            <form class="contacts__form" action="{% url 'send_message' %}" method="post">{% csrf_token %}
+                {% if message %}
+                    <span class = "label label-warning">{{ message }}</span>
+                {% endif %}
+                <div class="contacts__wrapper">
+                    <div class="contacts__input-row">
+                        <div class="contacts__input-item">
+                            <label class="contacts__label">E-mail:</label>
+                            <input class="contacts__input" type="text" name="email">
+                        </div>
+                        <div class="contacts__input-item">
+                            <label class="contacts__label">Application number (optional):</label>
+                            <input class="contacts__input" type="text" name="app_num">
+                        </div>
+                    </div>
+                    <label class="contacts__label">Your message:</label>
+                    <textarea class="contacts__textarea" name="content"></textarea>
+                </div>
+{#                <div class="contacts__captcha"><img src="{% static 'img/captcha.png' %}"></div>#}
+                <div class="g-recaptcha" data-sitekey="6LfqFzcUAAAAADEbogNoCfV9Q8zbfV8eSAg8Rwdq"></div>
+                <input class="contacts__btn" type="submit" value="Send Message">
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
